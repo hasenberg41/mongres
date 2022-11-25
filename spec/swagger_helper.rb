@@ -24,10 +24,10 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: ENV['ROUTES_HOST'],
           variables: {
             defaultHost: {
-              default: '127.0.0.1:3000'
+              default: ENV['ROUTES_HOST']
             }
           }
         }
