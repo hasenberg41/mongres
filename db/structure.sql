@@ -57,6 +57,39 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: contracts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.contracts (
+    id bigint NOT NULL,
+    title character varying,
+    people_id bigint,
+    documents_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: contracts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.contracts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: contracts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.contracts_id_seq OWNED BY public.contracts.id;
+
+
+--
 -- Name: documents; Type: FOREIGN TABLE; Schema: public; Owner: -
 --
 
@@ -102,8 +135,7 @@ CREATE TABLE public.people (
     id bigint NOT NULL,
     name character varying,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    documents_id bigint
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -136,6 +168,13 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: contracts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contracts ALTER COLUMN id SET DEFAULT nextval('public.contracts_id_seq'::regclass);
+
+
+--
 -- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -158,6 +197,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: contracts contracts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contracts
+    ADD CONSTRAINT contracts_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: people people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -174,10 +221,17 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: index_people_on_documents_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_contracts_on_documents_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_people_on_documents_id ON public.people USING btree (documents_id);
+CREATE INDEX index_contracts_on_documents_id ON public.contracts USING btree (documents_id);
+
+
+--
+-- Name: index_contracts_on_people_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_contracts_on_people_id ON public.contracts USING btree (people_id);
 
 
 --
@@ -190,6 +244,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20221125064159'),
 ('20221125074616'),
 ('20221125074808'),
-('20221125090612');
+('20221125120009');
 
 

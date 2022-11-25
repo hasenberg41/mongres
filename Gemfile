@@ -15,6 +15,8 @@ gem 'dotenv-rails'
 
 gem 'bootsnap', '>= 1.4.4', require: false
 
+gem 'rswag'
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
