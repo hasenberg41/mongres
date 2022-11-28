@@ -13,7 +13,15 @@ module Api
     end
 
     def index
-      render json: Contract.all.map(&:to_json)
+      render json: ContractsInfo.all.map(&:to_json)
+    end
+
+    def show
+      contract = ContractsInfo.find(params[:id])
+
+      render json: contract.to_json
+    rescue ActiveRecord::RecordNotFound
+      render status: :not_found
     end
 
     def destroy

@@ -7,6 +7,6 @@ Rails.application.routes.draw do
   namespace :api do
     resources :people, only: %i[create index destroy]
     resources :documents, only: %i[create index destroy]
-    resources :contracts, only: %i[create index destroy]
+    resources :contracts, except: :update
   end
 end

@@ -17,11 +17,18 @@ RSpec.describe 'api/contracts', type: :request do
         schema type: :array, properties: {
           id: { type: :integer },
           title: { type: :string },
-          people_id: { type: :integer },
-          contracts_id: { type: :integer }
+          people_name: { type: :string },
+          document_name: { type: :string },
+          description: { type: :string },
+          document_link: { type: :string },
+          created_at: { type: :string }
         }
 
         let!(:contract) { Contract.create!(title: 'deal with devil', documents_id: document.id, people_id: person.id) }
+
+        before do
+          ContractsInfo.refresh
+        end
 
         run_test! do
           expect(contract.title).to eq Contract.find(contract.id).title
@@ -68,7 +75,7 @@ RSpec.describe 'api/contracts', type: :request do
   end
 
   path '/api/contracts/{id}' do
-    delete('delete person') do
+    get('get contract info') do
       tags 'Contracts'
 
       consumes 'application/json'
@@ -77,7 +84,38 @@ RSpec.describe 'api/contracts', type: :request do
       parameter name: :id, in: :path, type: :string, description: 'id'
 
       response(200, 'successful') do
-        let(:contract) { Contract.create!(title: 'deal with devil', documents_id: document.id, people_id: person.id) }
+        let!(:contract) { Contract.create!(title: 'deal with devil', documents_id: document.id, people_id: person.id) }
+        let(:id) { contract.id }
+
+        before do
+          ContractsInfo.refresh
+        end
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data['id']).to eq id
+        end
+      end
+
+      response(404, 'not found') do
+        let(:id) { Contract.last&.id || 0 + 1 }
+
+        run_test! do
+          expect { Contract.find(id) }.to raise_error ActiveRecord::RecordNotFound
+        end
+      end
+    end
+
+    delete('delete contract') do
+      tags 'Contracts'
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :id, in: :path, type: :string, description: 'id'
+
+      response(200, 'successful') do
+        let!(:contract) { Contract.create!(title: 'deal with devil', documents_id: document.id, people_id: person.id) }
         let(:id) { contract.id }
 
         run_test! do

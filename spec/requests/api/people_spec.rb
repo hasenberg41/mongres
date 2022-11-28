@@ -65,7 +65,7 @@ RSpec.describe 'api/people', type: :request do
       parameter name: :id, in: :path, type: :string, description: 'id'
 
       response(200, 'successful') do
-        let(:person) { Person.create(name: 'Eric Cartman') }
+        let!(:person) { Person.create(name: 'Eric Cartman') }
         let(:id) { person.id }
 
         run_test! do

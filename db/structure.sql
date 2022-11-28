@@ -108,6 +108,36 @@ OPTIONS (
 
 
 --
+-- Name: people; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.people (
+    id bigint NOT NULL,
+    name character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: contracts_infos; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+--
+
+CREATE MATERIALIZED VIEW public.contracts_infos AS
+ SELECT c.id,
+    c.title,
+    p.name AS person_name,
+    d.name AS document_name,
+    d.description,
+    d.link_to_data AS document_link,
+    c.created_at
+   FROM ((public.contracts c
+     JOIN public.people p ON ((c.people_id = p.id)))
+     JOIN public.documents d ON ((c.documents_id = d.id)))
+  WITH NO DATA;
+
+
+--
 -- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -125,18 +155,6 @@ CREATE SEQUENCE public.documents_id_seq
 --
 
 ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
-
-
---
--- Name: people; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.people (
-    id bigint NOT NULL,
-    name character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
 
 
 --
@@ -244,6 +262,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20221125064159'),
 ('20221125074616'),
 ('20221125074808'),
-('20221125120009');
+('20221125120009'),
+('20221128111709');
 
 

@@ -17,6 +17,10 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'rswag'
 
+gem 'scenic'
+
+gem 'whenever', require: false
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'

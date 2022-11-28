@@ -74,7 +74,7 @@ RSpec.describe 'api/documents', type: :request do
       parameter name: :id, in: :path, type: :string, description: 'id'
 
       response(200, 'successful') do
-        let(:document) { Document.create!(name: 'Dark Sous', description: 'shut up)', link_to_data: 'pipipupu.check') }
+        let!(:document) { Document.create!(name: 'Dark Sous', description: 'shut up)', link_to_data: 'pipipupu.check') }
         let(:id) { document.id }
 
         run_test! do
