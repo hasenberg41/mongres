@@ -62,6 +62,79 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/documents":
+    get:
+      summary: list documents
+      tags:
+      - Documents
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  link_to_data:
+                    type: string
+    post:
+      summary: create document
+      tags:
+      - Documents
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  link_to_data:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                link_to_data:
+                  type: string
+              required:
+              - name
+              - description
+              - link_to_data
+  "/api/documents/{id}":
+    delete:
+      summary: delete person
+      tags:
+      - Documents
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
 servers:
 - url: http://127.0.0.1:3000
   variables:

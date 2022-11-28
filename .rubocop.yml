@@ -12,3 +12,6 @@ Metrics/PerceivedComplexity:
 
 Metrics/BlockLength:
   Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  Enabled: false

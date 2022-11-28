@@ -48,6 +48,10 @@ RSpec.describe 'api/people', type: :request do
           expect(response['name']).to eq data[:name]
         end
       end
+
+      response 422, 'missing name' do
+        let(:data) { {} }
+      end
     end
   end
 
