@@ -4,11 +4,11 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/people":
+  "/api/contracts":
     get:
-      summary: list people
+      summary: list contracts
       tags:
-      - People
+      - Contracts
       responses:
         '200':
           description: successful
@@ -19,12 +19,22 @@ paths:
                 properties:
                   id:
                     type: integer
-                  name:
+                  title:
+                    type: string
+                  people_name:
+                    type: string
+                  document_name:
+                    type: string
+                  description:
+                    type: string
+                  document_link:
+                    type: string
+                  created_at:
                     type: string
     post:
-      summary: create person
+      summary: create contract
       tags:
-      - People
+      - Contracts
       parameters: []
       responses:
         '201':
@@ -36,22 +46,49 @@ paths:
                 properties:
                   id:
                     type: integer
-                  name:
+                  title:
                     type: string
+                  people_id:
+                    type: integer
+                  contracts_id:
+                    type: integer
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                name:
+                title:
                   type: string
-              required: name
-  "/api/people/{id}":
-    delete:
-      summary: delete person
+                people_id:
+                  type: integer
+                contracts_id:
+                  type: integer
+              required:
+              - title
+              - people_id
+              - contracts_id
+  "/api/contracts/{id}":
+    get:
+      summary: get contract info
       tags:
-      - People
+      - Contracts
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+    delete:
+      summary: delete contract
+      tags:
+      - Contracts
       parameters:
       - name: id
         in: path
@@ -125,6 +162,64 @@ paths:
       summary: delete person
       tags:
       - Documents
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+  "/api/people":
+    get:
+      summary: list people
+      tags:
+      - People
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+    post:
+      summary: create person
+      tags:
+      - People
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required: name
+  "/api/people/{id}":
+    delete:
+      summary: delete person
+      tags:
+      - People
       parameters:
       - name: id
         in: path
