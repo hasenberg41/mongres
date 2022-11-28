@@ -15,3 +15,6 @@ Metrics/BlockLength:
 
 Layout/FirstArrayElementIndentation:
   Enabled: false
+
+Layout/LineLength:
+  Max: 150
